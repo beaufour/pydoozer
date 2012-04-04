@@ -101,7 +101,9 @@ class Connection(object):
             addrs = list(self.addrs)
             while len(addrs):
                 try:
-                    host, port = addrs.pop(0).split(':')
+                    parts = addrs.pop(0).split(':')
+                    host = parts[0]
+                    port = parts[1] if len(parts) > 1 else 8046
                     self.address = "%s:%s" % (host, port)
                     self.sock = gevent.socket.create_connection((host, int(port)))
                     self.ready.set()
